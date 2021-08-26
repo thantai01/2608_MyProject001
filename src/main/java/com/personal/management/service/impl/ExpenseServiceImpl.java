@@ -46,7 +46,7 @@ public class ExpenseServiceImpl implements IExpense {
     }
 
     @Override
-    public Iterable<Expense> findAllByIncomeAmountGreaterThanEqual(long expenseAmount) {
+    public Iterable<Expense> findAllByExpenseAmountGreaterThanEqual(long expenseAmount) {
         return expenseRepository.findAllByIncomeAmountGreaterThanEqual(expenseAmount);
     }
 }

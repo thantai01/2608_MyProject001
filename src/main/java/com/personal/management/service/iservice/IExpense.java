@@ -10,5 +10,5 @@ public interface IExpense extends IGeneralService<Expense> {
     Page<Expense> findAllByPaging(Pageable pageable);
 
     Iterable<Expense> findAllByCategoryId(long category_id);
-    Iterable<Expense> findAllByIncomeAmountGreaterThanEqual(long expenseAmount);
+    Iterable<Expense> findAllByExpenseAmountGreaterThanEqual(long expenseAmount);
 }
