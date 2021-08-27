@@ -28,33 +28,6 @@ public class FundAPIController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/funds/{id}/update-balance")
-    ResponseEntity<Optional<Funds>> updateFundBalance(@PathVariable long id) {
-        Optional<Funds> selected = fundService.findById(id);
-        if(selected.isPresent()) {
-            selected.get().setBalance(selected.get().getTotalIncome()-selected.get().getTotalExpense());
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-    }
-    @PutMapping("/funds/{id}/update-totalIncome")
-    ResponseEntity<Optional<Funds>> updateTotalIncome(@PathVariable long id,@RequestParam long totalIncome) {
-        Optional<Funds> selected = fundService.findById(id);
-        if(selected.isPresent()) {
-            selected.get().setTotalIncome(selected.get().getTotalIncome()+totalIncome);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-    }
-    @PutMapping("/funds/{id}/update-totalExpense")
-    ResponseEntity<Optional<Funds>> updateTotalExpense(@PathVariable long id, @RequestParam long totalExpense) {
-        Optional<Funds> selected = fundService.findById(id);
-        if(selected.isPresent()) {
-            selected.get().setTotalExpense(selected.get().getTotalExpense()+totalExpense);
-            return  new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-    }
     @GetMapping("/funds/{id}/detail")
     ResponseEntity<Optional<Funds>> detail(@PathVariable long id) {
         Optional<Funds> selected = fundService.findById(id);
@@ -74,11 +47,49 @@ public class FundAPIController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("funds/{id}/set-limiter")
-    ResponseEntity<Optional<Funds>> setLimiter (@PathVariable long id, @RequestParam long limit) {
+    @PutMapping("/funds/{id}/update-balance")
+    ResponseEntity<Optional<Funds>> updateFundBalance(@PathVariable long id,@RequestBody Funds fund) {
         Optional<Funds> selected = fundService.findById(id);
         if(selected.isPresent()) {
-            selected.get().setLimited(limit);
+            fund.setId(id);
+            fund.setBalance(selected.get().getTotalIncome()-selected.get().getTotalExpense());
+            fundService.save(fund);
+            return new ResponseEntity<>(selected,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    }
+
+    @PutMapping("/funds/{id}/update-totalIncome")
+    ResponseEntity<Optional<Funds>> updateTotalIncome(@PathVariable long id,@RequestParam long totalIncome,@RequestBody Funds fund) {
+        Optional<Funds> selected = fundService.findById(id);
+        if(selected.isPresent()) {
+            fund.setId(selected.get().getId());
+            fund.setTotalIncome(selected.get().getTotalIncome()+totalIncome);
+            fundService.save(fund);
+            return new ResponseEntity<>(selected,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    }
+
+    @PutMapping("/funds/{id}/update-totalExpense")
+    ResponseEntity<Optional<Funds>> updateTotalExpense(@PathVariable long id, @RequestParam long totalExpense,@RequestBody Funds fund) {
+        Optional<Funds> selected = fundService.findById(id);
+        if(selected.isPresent()) {
+            fund.setId(id);
+            fund.setTotalExpense(selected.get().getTotalExpense()+totalExpense);
+            fundService.save(fund);
+            return  new ResponseEntity<>(selected,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    }
+
+    @PutMapping("funds/{id}/set-limiter")
+    ResponseEntity<Optional<Funds>> setLimiter (@PathVariable long id, @RequestParam long limit, @RequestBody Funds fund) {
+        Optional<Funds> selected = fundService.findById(id);
+        if(selected.isPresent()) {
+            fund.setId(id);
+            fund.setLimited(limit);
+            fundService.save(fund);
             return new ResponseEntity<>(selected,HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
