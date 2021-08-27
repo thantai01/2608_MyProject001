@@ -53,6 +53,9 @@ public class FundAPIController {
         if(selected.isPresent()) {
             fund.setId(id);
             fund.setBalance(selected.get().getTotalIncome()-selected.get().getTotalExpense());
+            fund.setTotalIncome(selected.get().getTotalIncome());
+            fund.setTotalExpense(selected.get().getTotalExpense());
+            fund.setLimited(selected.get().getLimited());
             fundService.save(fund);
             return new ResponseEntity<>(selected,HttpStatus.OK);
         }
@@ -64,7 +67,10 @@ public class FundAPIController {
         Optional<Funds> selected = fundService.findById(id);
         if(selected.isPresent()) {
             fund.setId(selected.get().getId());
+            fund.setBalance(selected.get().getBalance());
             fund.setTotalIncome(selected.get().getTotalIncome()+totalIncome);
+            fund.setTotalExpense(selected.get().getTotalExpense());
+            fund.setLimited(selected.get().getLimited());
             fundService.save(fund);
             return new ResponseEntity<>(selected,HttpStatus.OK);
         }
@@ -76,7 +82,10 @@ public class FundAPIController {
         Optional<Funds> selected = fundService.findById(id);
         if(selected.isPresent()) {
             fund.setId(id);
+            fund.setBalance(selected.get().getBalance());
+            fund.setTotalIncome(selected.get().getTotalIncome());
             fund.setTotalExpense(selected.get().getTotalExpense()+totalExpense);
+            fund.setLimited(selected.get().getLimited());
             fundService.save(fund);
             return  new ResponseEntity<>(selected,HttpStatus.OK);
         }
