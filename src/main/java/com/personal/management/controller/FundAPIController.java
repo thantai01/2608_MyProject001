@@ -79,7 +79,7 @@ public class FundAPIController {
         Optional<Funds> selected = fundService.findById(id);
         if(selected.isPresent()) {
             selected.get().setLimited(limit);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(selected,HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
