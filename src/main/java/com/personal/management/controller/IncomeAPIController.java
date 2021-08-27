@@ -67,4 +67,5 @@ public class IncomeAPIController {
         Iterable<Income> foundList = incomeService.findAllByIncomeAmountGreaterThanEqual(incomeAmount);
         return new ResponseEntity<>(foundList,HttpStatus.OK);
     }
+
 }

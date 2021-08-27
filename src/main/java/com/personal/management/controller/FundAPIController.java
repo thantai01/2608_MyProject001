@@ -63,4 +63,14 @@ public class FundAPIController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @DeleteMapping("/funds/{id}")
+    ResponseEntity<Void> delete(@PathVariable long id) {
+        Optional<Funds> selected = fundService.findById(id);
+        if(selected.isPresent()) {
+            fundService.delete(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

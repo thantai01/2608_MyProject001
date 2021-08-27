@@ -8,7 +8,9 @@ import org.springframework.data.domain.Pageable;
 
 public interface IExpense extends IGeneralService<Expense> {
     Page<Expense> findAllByPaging(Pageable pageable);
-
     Iterable<Expense> findAllByCategoryId(long category_id);
     Iterable<Expense> findAllByExpenseAmountGreaterThanEqual(long expenseAmount);
+    Iterable<Expense> findTop5Expense();
+    Iterable<Expense> findAllByCreatedTimeEquals(String expenseTime);
+
 }
