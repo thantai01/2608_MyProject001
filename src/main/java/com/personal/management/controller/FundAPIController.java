@@ -48,7 +48,7 @@ public class FundAPIController {
     }
 
     @PutMapping("/funds/{id}/update-balance")
-    ResponseEntity<Optional<Funds>> updateFundBalance(@PathVariable long id,@RequestBody Funds fund) {
+    ResponseEntity<Optional<Funds>> updateFundBalance(@PathVariable long id,Funds fund) {
         Optional<Funds> selected = fundService.findById(id);
         if(selected.isPresent()) {
             fund.setId(id);
@@ -60,7 +60,7 @@ public class FundAPIController {
     }
 
     @PutMapping("/funds/{id}/update-totalIncome")
-    ResponseEntity<Optional<Funds>> updateTotalIncome(@PathVariable long id,@RequestParam long totalIncome,@RequestBody Funds fund) {
+    ResponseEntity<Optional<Funds>> updateTotalIncome(@PathVariable long id,@RequestParam long totalIncome,Funds fund) {
         Optional<Funds> selected = fundService.findById(id);
         if(selected.isPresent()) {
             fund.setId(selected.get().getId());
@@ -72,7 +72,7 @@ public class FundAPIController {
     }
 
     @PutMapping("/funds/{id}/update-totalExpense")
-    ResponseEntity<Optional<Funds>> updateTotalExpense(@PathVariable long id, @RequestParam long totalExpense,@RequestBody Funds fund) {
+    ResponseEntity<Optional<Funds>> updateTotalExpense(@PathVariable long id, @RequestParam long totalExpense,Funds fund) {
         Optional<Funds> selected = fundService.findById(id);
         if(selected.isPresent()) {
             fund.setId(id);
@@ -84,10 +84,13 @@ public class FundAPIController {
     }
 
     @PutMapping("funds/{id}/set-limiter")
-    ResponseEntity<Optional<Funds>> setLimiter (@PathVariable long id, @RequestParam long limit, @RequestBody Funds fund) {
+    ResponseEntity<Optional<Funds>> setLimiter (@PathVariable long id, @RequestParam long limit,Funds fund) {
         Optional<Funds> selected = fundService.findById(id);
         if(selected.isPresent()) {
             fund.setId(id);
+            fund.setBalance(selected.get().getBalance());
+            fund.setTotalIncome(selected.get().getTotalIncome());
+            fund.setTotalExpense(selected.get().getTotalExpense());
             fund.setLimited(limit);
             fundService.save(fund);
             return new ResponseEntity<>(selected,HttpStatus.OK);
