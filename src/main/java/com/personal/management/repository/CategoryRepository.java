@@ -11,6 +11,9 @@ import org.springframework.stereotype.Repository;
 public interface CategoryRepository extends PagingAndSortingRepository<Category,Long> {
 
     @Modifying
-    @Query("select category.name from Category category where category.typeName =?1 ")
+    @Query(value = "select category.name from Category category where category.typeName =?1 order by category.typeName")
+//    @Query(value = "select * from category order by category.type_name",nativeQuery = true)
     Iterable<Category> findNameByNameType(String name);
+
+
 }

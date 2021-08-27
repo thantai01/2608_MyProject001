@@ -43,8 +43,8 @@ public class CategoryAPIController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    @GetMapping("/categories/filterByTypeName/{typeName}")
-    ResponseEntity<Iterable<Category>> filterList (@PathVariable String typeName) {
+    @GetMapping("/categories/filter")
+    ResponseEntity<Iterable<Category>> filterList (@RequestParam String typeName) {
         Iterable<Category> iterable = categoryRepository.findNameByNameType(typeName);
         return new ResponseEntity<>(iterable,HttpStatus.OK);
     }

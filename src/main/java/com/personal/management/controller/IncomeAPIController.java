@@ -57,12 +57,12 @@ public class IncomeAPIController {
         }
         return new ResponseEntity<>(selected,HttpStatus.FOUND);
     }
-    @GetMapping("/incomes/getAllByCategoryId/{categoryId}")
-    ResponseEntity<Iterable<Income>> findAllByCategory(@PathVariable long categoryId) {
+    @GetMapping("/incomes/searchByCategory")
+    ResponseEntity<Iterable<Income>> findAllByCategory(@RequestParam long categoryId) {
         Iterable<Income> foundList = incomeService.findAllByCategoryId(categoryId);
         return new ResponseEntity<>(foundList,HttpStatus.OK);
     }
-    @GetMapping("/incomes/getAllByIncomeAmount/")
+    @GetMapping("/incomes/searchByAmount")
     ResponseEntity<Iterable<Income>> findAllByIncomeAmount(@RequestParam long incomeAmount) {
         Iterable<Income> foundList = incomeService.findAllByIncomeAmountGreaterThanEqual(incomeAmount);
         return new ResponseEntity<>(foundList,HttpStatus.OK);

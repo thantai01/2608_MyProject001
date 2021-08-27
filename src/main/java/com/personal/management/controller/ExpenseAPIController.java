@@ -41,13 +41,13 @@ public class ExpenseAPIController {
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @GetMapping("/expenses/findAllByCategory/{categoryId}")
-    ResponseEntity<Iterable<Expense>> findAllByCategory(@PathVariable long categoryId) {
+    @GetMapping("/expenses/searchByCategory")
+    ResponseEntity<Iterable<Expense>> findAllByCategory(@RequestParam long categoryId) {
         Iterable<Expense> foundList = expenseService.findAllByCategoryId(categoryId);
         return new ResponseEntity<>(foundList,HttpStatus.FOUND);
     }
-    @GetMapping("/expenses/findAllByExpenseAmount/{expenseAmount}")
-        ResponseEntity<Iterable<Expense>> findAllByExpenseAmountContaining (@PathVariable long expenseAmount) {
+    @GetMapping("/expenses/searchByAmount")
+        ResponseEntity<Iterable<Expense>> findAllByExpenseAmountContaining (@RequestParam long expenseAmount) {
             Iterable<Expense> foundList = expenseService.findAllByExpenseAmountGreaterThanEqual(expenseAmount);
             return new ResponseEntity<>(foundList,HttpStatus.FOUND);
         }

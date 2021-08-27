@@ -11,4 +11,6 @@ public interface IncomeRepository extends PagingAndSortingRepository<Income,Long
 
     @Query("select income from Income income where income.incomeAmount >= ?1 ")
     Iterable<Income> findAllByIncomeAmountGreaterThanEqual(long incomeAmount);
+
+
 }
