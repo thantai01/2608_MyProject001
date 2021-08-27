@@ -83,13 +83,14 @@ public class ExpenseAPIController {
     }
     @GetMapping("/expenses/search")
     ResponseEntity<Iterable<Expense>> findALlByLocalDate(@RequestParam LocalDate start, @RequestParam LocalDate end) {
-        Iterable<Expense> foundList = expenseService.findAll();
+        Iterable<Expense> foundList;
         for(Expense expense: expenseService.findAll()) {
             LocalDate expenseTime = LocalDate.parse(expense.getCreatedTime(),DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
             if(expenseTime.compareTo(start)>=0 && expenseTime.compareTo(end)>=0) {
                 foundList = expenseService.findAllByCreatedTimeEquals(expenseTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                return new ResponseEntity<>(foundList,HttpStatus.OK);
             }
         }
-        return new ResponseEntity<>(foundList,HttpStatus.FOUND);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

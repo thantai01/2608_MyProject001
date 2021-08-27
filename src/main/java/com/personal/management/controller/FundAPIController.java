@@ -73,4 +73,14 @@ public class FundAPIController {
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PutMapping("funds/{id}/set-limiter")
+    ResponseEntity<Optional<Funds>> setLimiter (@PathVariable long id, @RequestParam long limit) {
+        Optional<Funds> selected = fundService.findById(id);
+        if(selected.isPresent()) {
+            selected.get().setLimited(limit);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    }
 }
