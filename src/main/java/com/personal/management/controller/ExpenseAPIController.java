@@ -45,8 +45,9 @@ public class ExpenseAPIController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
     @PutMapping("/expenses/{id}")
-    ResponseEntity<Optional<Expense>> edit (@PathVariable long id, Expense expense) {
+    ResponseEntity<Optional<Expense>> edit (@PathVariable long id,@RequestBody Expense expense) {
         Optional<Expense> selected = expenseService.findById(id);
         if(selected.isPresent()) {
             expense.setId(id);
@@ -56,6 +57,7 @@ public class ExpenseAPIController {
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
     @DeleteMapping("/expenses/{id}")
     ResponseEntity<Void> delete(@PathVariable long id) {
         Optional<Expense> selected = expenseService.findById(id);
@@ -71,6 +73,7 @@ public class ExpenseAPIController {
         Iterable<Expense> foundList = expenseService.findAllByCategoryId(categoryId);
         return new ResponseEntity<>(foundList,HttpStatus.FOUND);
     }
+
     @GetMapping("/expenses/searchByAmount")
         ResponseEntity<Iterable<Expense>> findAllByExpenseAmountContaining (@RequestParam long expenseAmount) {
             Iterable<Expense> foundList = expenseService.findAllByExpenseAmountGreaterThanEqual(expenseAmount);
@@ -81,6 +84,7 @@ public class ExpenseAPIController {
     ResponseEntity<Iterable<Expense>> findTop5Expense() {
         return new ResponseEntity<>(expenseService.findTop5Expense(),HttpStatus.FOUND);
     }
+
     @GetMapping("/expenses/search")
     ResponseEntity<Iterable<Expense>> findALlByLocalDate(@RequestParam LocalDate start, @RequestParam LocalDate end) {
         Iterable<Expense> foundList;
